@@ -28,4 +28,4 @@ const CompteSchema = new mongoose.Schema({
 
 const Compte  = mongoose.model('Compte', CompteSchema);
 
-export default Compte;
+export default mongoose.models.Compte || Compte;

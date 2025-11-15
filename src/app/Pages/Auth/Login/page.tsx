@@ -27,8 +27,11 @@ export default function LoginPage() {
         // 🔐 Save token
         localStorage.setItem("token", data.token);
 
+        alert("User created successfully!");
+        
         // ✅ Redirect
-        router.push("/application/Dashboard");
+        router.push("/Pages/Client/Dashboard");
+
       } else {
         setMessage(data.error || "Invalid credentials");
       }

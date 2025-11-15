@@ -23,4 +23,4 @@ AnomalieSchema.methods.confirmFraud = function(){
 
 const Anomalie = mongoose.model('Anomalie', AnomalieSchema);
 
-export default Anomalie;
+export default mongoose.models.Anomalie || Anomalie;

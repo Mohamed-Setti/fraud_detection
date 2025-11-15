@@ -9,4 +9,4 @@ const RapportSchema = new mongoose.Schema({
 });
 
 const Rapport = mongoose.model('Rapport', RapportSchema);
-export default Rapport;
+export default mongoose.models.Rapport || Rapport;

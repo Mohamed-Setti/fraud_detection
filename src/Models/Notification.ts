@@ -17,4 +17,4 @@ NotificationSchema.methods.markRead = function(){
 
 const Notification = mongoose.model('Notification', NotificationSchema);
 
-export default Notification;
+export default mongoose.models.Notification || Notification;
