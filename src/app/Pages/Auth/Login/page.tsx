@@ -24,14 +24,8 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok && data.token) {
-        // 🔐 Save token
         localStorage.setItem("token", data.token);
-
-        alert("User created successfully!");
-        
-        // ✅ Redirect
         router.push("/Pages/Client/Dashboard");
-
       } else {
         setMessage(data.error || "Invalid credentials");
       }
@@ -42,69 +36,56 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-50">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <Image
-          className="dark:invert w-auto h-10 mx-auto"
-            src="/shield.svg"
-            alt="Shield logo"
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-12">
+      {/* Card Container */}
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+        {/* Logo */}
+        <div className="flex justify-center mb-6">
+          <Image
+            src="/Logo.png"
+            alt="Logo"
             width={150}
             height={150}
-        />
-        <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
+          />
+        </div>
+
+        <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900 mb-6">
           Sign in to your account
         </h2>
-      </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        {/* Form */}
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Email address
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm"
-              />
-            </div>
+            <input
+              id="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+              placeholder="Email address"
+              className="mt-2 block w-full rounded-md bg-gray-100 px-3 py-2 text-gray-900 placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+            />
           </div>
 
           <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-900"
+            <input
+              id="password"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              placeholder="Password"
+              className="mt-2 block w-full rounded-md bg-gray-100 px-3 py-2 text-gray-900 placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+            />
+            <div className="flex justify-end mt-1">
+              <Link
+                href="#"
+                className="text-sm font-semibold text-indigo-600 hover:text-indigo-500"
               >
-                Password
-              </label>
-              <div className="text-sm">
-                <Link
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm"
-              />
+                Forgot password?
+              </Link>
             </div>
           </div>
 
@@ -112,19 +93,15 @@ export default function LoginPage() {
             <p className="text-sm text-red-500 text-center">{message}</p>
           )}
 
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Sign in
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full flex justify-center rounded-md bg-indigo-600 px-4 py-2 text-white font-semibold shadow hover:bg-indigo-500 transition"
+          >
+            Sign in
+          </button>
 
-          <div className="flex items-center justify-between mt-4">
-            <p className="block text-sm text-gray-900">
-              You don&apos;t have an account?
-            </p>
+          <div className="flex justify-between mt-4 text-sm text-gray-900">
+            <span>You don&apos;t have an account?</span>
             <Link
               href="./Registre"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
