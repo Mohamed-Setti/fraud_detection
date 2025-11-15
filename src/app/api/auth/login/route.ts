@@ -7,32 +7,29 @@ export async function POST(req: Request) {
   try {
     await dbConnect();
 
-    const { email, password }: { email: string; password: string } = await req.json();
+    const { email, password } = await req.json();
 
-    // Validation des champs requis
     if (!email || !password) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
-        status: 400
+        status: 400,
       });
     }
 
-    // Vérifier si l'utilisateur existe
     const user = await User.findOne({ email });
     if (!user) {
       return new Response(JSON.stringify({ error: "Invalid credentials" }), {
-        status: 401
+        status: 401,
       });
     }
 
-    // Vérifier le mot de passe
-    const isMatch = await bcrypt.compare(password, user.password);
+    // FIX: use passwordHash instead of password
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
     if (!isMatch) {
       return new Response(JSON.stringify({ error: "Invalid credentials" }), {
-        status: 401
+        status: 401,
       });
     }
 
-    // Générer le token JWT
     const token = jwt.sign(
       { userId: user._id, role: user.role },
       process.env.JWT_SECRET as string,
@@ -47,8 +44,8 @@ export async function POST(req: Request) {
           id: user._id,
           name: user.name,
           email: user.email,
-          role: user.role
-        }
+          role: user.role,
+        },
       }),
       { status: 200 }
     );
@@ -58,7 +55,7 @@ export async function POST(req: Request) {
     return new Response(
       JSON.stringify({
         error: "Something went wrong",
-        details: error instanceof Error ? error.message : "Unknown error"
+        details: error instanceof Error ? error.message : "Unknown error",
       }),
       { status: 500 }
     );

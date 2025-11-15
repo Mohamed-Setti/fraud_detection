@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function AuthPage() {
-  const [isRegisterActive, setIsRegisterActive] = useState(true);
+  const [isRegisterActive, setIsRegisterActive] = useState(false);
   const router = useRouter();
 
   // Login state
@@ -57,7 +57,7 @@ export default function AuthPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        router.push("./Login");
+        setIsRegisterActive(true);
       } else {
         setRegisterMessage(data.error || "Registration failed");
       }
