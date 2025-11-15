@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function AuthPage() {
-  const [isRegisterActive, setIsRegisterActive] = useState(false);
+  const [isRegisterActive, setIsRegisterActive] = useState(true);
   const router = useRouter();
 
   // Login state

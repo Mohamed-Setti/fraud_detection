@@ -28,19 +28,19 @@ export default function Home() {
           {/* CTA Buttons */}
           <div className="flex flex-row sm:flex-col gap-4">
             <button
-              onClick={() => router.push("/Pages/Auth/Login")}
+              onClick={() => router.push("/Pages/Auth")}
               className="m-2 text-lg px-8 py-5 bg-blue-600 text-white font-semibold rounded-lg shadow-lg flex items-center gap-2 hover:bg-blue-700 transition"
             >
               Commencer maintenant
               <ArrowRight className="h-5 w-5" />
             </button>
-            <button
+            {/* <button
               onClick={() => router.push("/Pages/Auth/Registre")}
               className="m-2 text-lg px-8 py-5 bg-white text-blue-700 font-semibold rounded-lg shadow-lg flex items-center gap-2 hover:bg-blue-50 transition"
             >
               Créer un compte
               <ArrowRight className="h-5 w-5" />
-            </button>
+            </button> */}
           </div>
         </div>
       </section>
