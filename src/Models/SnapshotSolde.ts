@@ -19,4 +19,5 @@ SnapshotSoldeSchema.statics.capture = async function(transaction, accountBefore,
   });
 };
 
-module.exports = mongoose.model('SnapshotSolde', SnapshotSoldeSchema);
+const SnapshotSolde = mongoose.model('SnapshotSolde', SnapshotSoldeSchema);
+export default SnapshotSolde;

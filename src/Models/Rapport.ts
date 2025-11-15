@@ -8,4 +8,5 @@ const RapportSchema = new mongoose.Schema({
   meta: { type: mongoose.Schema.Types.Mixed }
 });
 
-module.exports = mongoose.model('Rapport', RapportSchema);
+const Rapport = mongoose.model('Rapport', RapportSchema);
+export default Rapport;

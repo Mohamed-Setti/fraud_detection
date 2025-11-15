@@ -26,4 +26,6 @@ const CompteSchema = new mongoose.Schema({
 //   return this.save();
 // };
 
-module.exports = mongoose.model('Compte', CompteSchema);
+const Compte  = mongoose.model('Compte', CompteSchema);
+
+export default Compte;

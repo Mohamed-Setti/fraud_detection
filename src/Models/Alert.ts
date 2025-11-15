@@ -11,4 +11,6 @@ const AlertSchema = new mongoose.Schema({
   resolvedAt: { type: Date }
 });
 
-export default mongoose.model('Alert', AlertSchema);
+const Alert = mongoose.model('Alert', AlertSchema);
+
+export default Alert;
