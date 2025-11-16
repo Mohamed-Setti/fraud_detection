@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
@@ -46,12 +47,12 @@ export default function Layout({ children }: LayoutProps) {
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
               🔔
             </button>
-
             <div className="flex items-center gap-5">
               <span className="font-medium text-gray-900">John Doe</span>
             </div>
-
-            <button className="mt-auto p-2 bg-red-600 rounded hover:bg-red-500">Logout</button>
+            <Link href="/">
+                <button className="mt-auto p-2 bg-red-600 rounded hover:bg-red-500">Logout</button>
+            </Link>
           </div>
         </div>
         {children}

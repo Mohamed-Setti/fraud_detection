@@ -1,10 +1,21 @@
 "use client";
 
+import Link from "next/dist/client/link";
+import {Plus} from "lucide-react" ;
+
 export default function TransactionsPage() {
   return (
     <div className="min-h-screen flex bg-gray-50">
      
       <main className="flex-1 p-8">
+            <div className="flex justify-end mb-4">
+                <Link href="./AddTransaction">
+                    <button className="flex items-center justify-center px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-600">
+                        <Plus className="mr-2"/> 
+                        add Transaction
+                    </button>
+                </Link>
+            </div>
             <div className="space-y-6">
             {/* ---- KPI BOXES ---- */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -49,7 +60,7 @@ export default function TransactionsPage() {
                 <input type="date" className="px-4 py-2 border rounded-lg text-gray-900" />
 
                 <button className="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-600">
-                Apply Filters
+                    Apply Filters
                 </button>
             </div>
 
