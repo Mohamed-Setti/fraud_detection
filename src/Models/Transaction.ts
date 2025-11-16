@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-// inline enums (was imported from './enums')
 enum TypeTransaction {
   OTHER = 'OTHER',
   TRANSFER = 'TRANSFER',
@@ -16,11 +15,11 @@ enum StatutTransaction {
 }
 
 const TransactionSchema = new mongoose.Schema({
-  idTransaction: { type: Number }, // optional external id
-  step: { type: Number, default: 0 }, // snapshot step for dataset alignment
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // owner
-  compteSource: { type: mongoose.Schema.Types.ObjectId, ref: 'Compte' },
-  compteDestination: { type: mongoose.Schema.Types.ObjectId, ref: 'Compte' },
+  idTransaction: { type: Number },
+  step: { type: Number, default: 0 },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  compteSource: { type: String },
+  compteDestination: { type: String },
   date: { type: Date, required: true, default: Date.now },
   amount: { type: Number, required: true },
   type: { type: String, enum: Object.values(TypeTransaction), default: TypeTransaction.OTHER },
@@ -28,20 +27,13 @@ const TransactionSchema = new mongoose.Schema({
   statut: { type: String, enum: Object.values(StatutTransaction), default: StatutTransaction.EN_ATTENTE },
   isFraud: { type: Boolean, default: false },
   riskScore: { type: Number, default: 0 },
-  mlDetails: { type: mongoose.Schema.Types.Mixed }, // store ML output & features
+  mlDetails: { type: mongoose.Schema.Types.Mixed },
   description: { type: String },
   balanceAfterSource: { type: Number },
   balanceAfterDestination: { type: Number },
   createdAt: { type: Date, default: Date.now }
 });
 
-// helpers
-// TransactionSchema.methods.markAsFraud = function(score, details){
-//   this.isFraud = true;
-//   this.riskScore = score || this.riskScore;
-//   if(details) this.mlDetails = Object.assign(this.mlDetails || {}, details);
-//   return this.save();
-// };
 
-const Transaction = mongoose.model('Transaction', TransactionSchema);
-export default mongoose.models.Transaction || Transaction;
+const Transaction = mongoose.models.Transaction || mongoose.model('Transaction', TransactionSchema);
+export default Transaction;

@@ -5,28 +5,30 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
-type TxType = "debit" | "credit" | "transfer" | "payment" | "other";
+// Match backend schema enums
+type TxType = "OTHER" | "TRANSFER" | "PAYMENT" | "WITHDRAWAL" | "DEPOSIT";
 type Channel = "online" | "branch" | "atm" | "pos" | "mobile";
 
-const DEFAULT_API =
-  typeof window !== "undefined" && "__NEXT_DATA__" in window
-    ? (process.env.NEXT_PUBLIC_API_URL as string) || "http://localhost:4000/api"
-    : (process?.env?.NEXT_PUBLIC_API_URL as string) || "http://localhost:4000/api";
+// Client-only date display
+function ClientDate({ isoDate }: { isoDate: string }) {
+  if (!isoDate) return <span>-</span>;
+  return <span>{new Date(isoDate).toLocaleString()}</span>;
+}
 
 export default function AddTransactionPage() {
   const router = useRouter();
+
   const [amount, setAmount] = useState<number | "">("");
-  const [type, setType] = useState<TxType>("debit");
+  const [type, setType] = useState<TxType>("OTHER");
   const [channel, setChannel] = useState<Channel>("online");
-  const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 16)); // yyyy-mm-ddThh:mm
-  const [description, setDescription] = useState<string>("");
+  const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 16));
+  const [description, setDescription] = useState("");
   const [balanceAfter, setBalanceAfter] = useState<number | "">("");
-  const [compteSource, setCompteSource] = useState<string>("");
-  const [compteDestination, setCompteDestination] = useState<string>("");
+  const [compteSource, setCompteSource] = useState("");
+  const [compteDestination, setCompteDestination] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const API_URL = (process.env.NEXT_PUBLIC_API_URL as string) || DEFAULT_API;
-
+  // Basic frontend validation
   function validate() {
     if (amount === "" || Number.isNaN(Number(amount))) {
       alert("Please enter a valid amount");
@@ -39,26 +41,26 @@ export default function AddTransactionPage() {
     return true;
   }
 
+  // Form submission
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validate()) return;
     setLoading(true);
 
-    // Build payload according to backend expectation
     const payload = {
       date: new Date(date).toISOString(),
       amount: Number(amount),
       type,
       channel,
-      description,
-      balanceAfter: balanceAfter === "" ? undefined : Number(balanceAfter),
+      description: description || undefined,
+      balanceAfterSource: balanceAfter === "" ? undefined : Number(balanceAfter),
       compteSource: compteSource || undefined,
       compteDestination: compteDestination || undefined,
     };
 
     try {
       const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-      const res = await fetch(`${API_URL}/transactions`, {
+      const res = await fetch("/api/Client/Transaction", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,13 +71,12 @@ export default function AddTransactionPage() {
 
       if (!res.ok) {
         const err = await res.json().catch(() => null);
-        throw new Error(err?.message || `HTTP ${res.status}`);
+        throw new Error(err?.error || `HTTP ${res.status}`);
       }
 
       await res.json();
-      // success
       alert("Transaction added successfully");
-      router.push("/Transaction");
+      router.push("./Transaction");
     } catch (error: unknown) {
       console.error("Add transaction error:", error);
       const message = error instanceof Error ? error.message : String(error);
@@ -86,21 +87,21 @@ export default function AddTransactionPage() {
   }
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen p-8 bg-gray-50">
       <main className="flex-1 p-8">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-semibold text-blue-900">Add Transaction</h2>
             <Link href="./Transaction">
-              <button className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-600">
-                <ArrowLeft className="inline-block mr-2 h-5 w-5" />
-                Back to list
+              <button className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-600 flex items-center">
+                <ArrowLeft className="mr-2 h-5 w-5" /> Back to list
               </button>
             </Link>
           </div>
 
           <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Amount */}
               <label className="flex flex-col">
                 <span className="text-sm text-gray-600">Amount</span>
                 <input
@@ -114,6 +115,7 @@ export default function AddTransactionPage() {
                 />
               </label>
 
+              {/* Date */}
               <label className="flex flex-col">
                 <span className="text-sm text-gray-600">Date & time</span>
                 <input
@@ -125,6 +127,7 @@ export default function AddTransactionPage() {
                 />
               </label>
 
+              {/* Type */}
               <label className="flex flex-col">
                 <span className="text-sm text-gray-600">Type</span>
                 <select
@@ -132,14 +135,15 @@ export default function AddTransactionPage() {
                   onChange={(e) => setType(e.target.value as TxType)}
                   className="mt-1 p-2 border rounded text-gray-900"
                 >
-                  <option value="debit">Debit</option>
-                  <option value="credit">Credit</option>
-                  <option value="transfer">Transfer</option>
-                  <option value="payment">Payment</option>
-                  <option value="other">Other</option>
+                  <option value="DEPOSIT">Deposit</option>
+                  <option value="WITHDRAWAL">Withdrawal</option>
+                  <option value="TRANSFER">Transfer</option>
+                  <option value="PAYMENT">Payment</option>
+                  <option value="OTHER">Other</option>
                 </select>
               </label>
 
+              {/* Channel */}
               <label className="flex flex-col">
                 <span className="text-sm text-gray-600">Channel</span>
                 <select
@@ -156,6 +160,7 @@ export default function AddTransactionPage() {
               </label>
             </div>
 
+            {/* Accounts */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <label className="flex flex-col">
                 <span className="text-sm text-gray-600">Source Account (optional)</span>
@@ -178,6 +183,7 @@ export default function AddTransactionPage() {
               </label>
             </div>
 
+            {/* Description */}
             <label className="flex flex-col">
               <span className="text-sm text-gray-600">Description</span>
               <textarea
@@ -189,6 +195,7 @@ export default function AddTransactionPage() {
               />
             </label>
 
+            {/* Balance After */}
             <label className="flex flex-col md:w-1/2">
               <span className="text-sm text-gray-600">Balance After (optional)</span>
               <input
@@ -201,6 +208,7 @@ export default function AddTransactionPage() {
               />
             </label>
 
+            {/* Buttons */}
             <div className="flex items-center gap-3 mt-4">
               <button
                 type="submit"
@@ -212,7 +220,7 @@ export default function AddTransactionPage() {
 
               <button
                 type="button"
-                onClick={() => router.push("/Transaction")}
+                onClick={() => router.push("./Transaction")}
                 className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
               >
                 Cancel
@@ -233,7 +241,7 @@ export default function AddTransactionPage() {
                   <span className="font-medium">Channel:</span> {channel}
                 </p>
                 <p>
-                  <span className="font-medium">Date:</span> {date ? new Date(date).toLocaleString() : "-"}
+                  <span className="font-medium">Date:</span> <ClientDate isoDate={date} />
                 </p>
                 <p>
                   <span className="font-medium">Description:</span> {description || "-"}
