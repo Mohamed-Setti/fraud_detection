@@ -1,14 +1,12 @@
 'use client';
 
-//import Image from "next/image";
-
 export default function ClientDashboard() {
   // Dummy data
   const summary = [
-    { title: "Total Transactions", value: "$12,450" },
-    { title: "Suspicious Transactions", value: "24" },
-    { title: "Alerts Triggered", value: "7" },
-    { title: "Account Balance", value: "$48,200" },
+    { title: "Total Transactions", value: "$12,450", color: "border-blue-700" },
+    { title: "Suspicious Transactions", value: "24", color: "border-red-600" },
+    { title: "Alerts Triggered", value: "7", color: "border-yellow-500" },
+    { title: "Account Balance", value: "$48,200", color: "border-green-600" },
   ];
 
   const recentTransactions = [
@@ -18,83 +16,60 @@ export default function ClientDashboard() {
   ];
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
-      {/* Sidebar */}
-      <aside className="w-64 bg-blue-900 text-white p-6 flex flex-col">
-        <div className="text-2xl font-bold mb-10">FinGuard AI</div>
-        <nav className="flex-1 space-y-4">
-          <a href="#" className="block p-2 rounded hover:bg-blue-800">Dashboard</a>
-          <a href="#" className="block p-2 rounded hover:bg-blue-800">Transactions</a>
-          <a href="#" className="block p-2 rounded hover:bg-blue-800">Alerts</a>
-          <a href="#" className="block p-2 rounded hover:bg-blue-800">Reports</a>
-          <a href="#" className="block p-2 rounded hover:bg-blue-800">Settings</a>
-        </nav>
-        <button className="mt-auto p-2 bg-red-600 rounded hover:bg-red-500">Logout</button>
-      </aside>
+    <div className="min-h-screen flex bg-gray-50 p-6">
 
-      {/* Main Content */}
-      <main className="flex-1 p-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <div className="flex items-center gap-4">
-            <button className="relative">
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              🔔
-            </button>
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-              <span className="font-medium text-gray-900">John Doe</span>
-            </div>
-          </div>
-        </div>
+      <main className="flex-1 space-y-6">
 
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        {/* ---- SUMMARY CARDS ---- */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {summary.map((card) => (
-            <div key={card.title} className="p-6 bg-white rounded-lg shadow">
+            <div key={card.title} className={`p-6 bg-white shadow rounded-xl border-l-4 ${card.color}`}>
               <p className="text-sm text-gray-500">{card.title}</p>
-              <p className="text-2xl font-bold text-gray-900">{card.value}</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">{card.value}</p>
             </div>
           ))}
         </div>
 
-        {/* Analytics Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 text-gray-800">
-          <div className="p-6 bg-white rounded-lg shadow h-64 flex items-center justify-center">
+        {/* ---- Analytics Charts ---- */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="p-6 bg-white rounded-xl shadow h-64 flex items-center justify-center">
             Line Chart Placeholder
           </div>
-          <div className="p-6 bg-white rounded-lg shadow h-64 flex items-center justify-center">
+          <div className="p-6 bg-white rounded-xl shadow h-64 flex items-center justify-center">
             Bar Chart Placeholder
           </div>
-          <div className="p-6 bg-white rounded-lg shadow h-64 flex items-center justify-center">
+          <div className="p-6 bg-white rounded-xl shadow h-64 flex items-center justify-center">
             Pie Chart Placeholder
           </div>
         </div>
 
-        {/* Recent Transactions Table */}
-        <div className="p-6 bg-white rounded-lg shadow text-black">
-          <h2 className="text-xl font-bold mb-4">Recent Transactions</h2>
+        {/* ---- Recent Transactions ---- */}
+        <div className="bg-white rounded-xl shadow overflow-hidden">
+          <h2 className="text-xl font-bold p-6 border-b">Recent Transactions</h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b">
-                  <th className="py-2 px-3">Date</th>
-                  <th className="py-2 px-3">Transaction ID</th>
-                  <th className="py-2 px-3">Amount</th>
-                  <th className="py-2 px-3">Type</th>
-                  <th className="py-2 px-3">Status</th>
+            <table className="w-full text-left">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="py-3 px-4">Date</th>
+                  <th className="py-3 px-4">Transaction ID</th>
+                  <th className="py-3 px-4">Amount</th>
+                  <th className="py-3 px-4">Type</th>
+                  <th className="py-3 px-4">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {recentTransactions.map((txn) => (
                   <tr key={txn.id} className="border-b hover:bg-gray-50">
-                    <td className="py-2 px-3">{txn.date}</td>
-                    <td className="py-2 px-3">{txn.id}</td>
-                    <td className="py-2 px-3">{txn.amount}</td>
-                    <td className="py-2 px-3">{txn.type}</td>
-                    <td className={`py-2 px-3 font-semibold ${txn.status === "Suspicious" ? "text-red-600" : "text-green-600"}`}>
-                      {txn.status}
+                    <td className="py-2 px-4">{txn.date}</td>
+                    <td className="py-2 px-4">{txn.id}</td>
+                    <td className="py-2 px-4 font-semibold">{txn.amount}</td>
+                    <td className="py-2 px-4">{txn.type}</td>
+                    <td className="py-2 px-4">
+                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        txn.status === "Suspicious" ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
+                      }`}>
+                        {txn.status}
+                      </span>
                     </td>
                   </tr>
                 ))}
