@@ -1,6 +1,8 @@
 'use client';
 
 export default function ClientDashboard() {
+
+  
   // Dummy data
   const summary = [
     { title: "Total Transactions", value: "$12,450", color: "border-blue-700" },

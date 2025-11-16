@@ -32,6 +32,7 @@ export default function AuthPage() {
       });
       const data = await res.json();
       if (res.ok && data.token) {
+        localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("token", data.token);
         router.push("/Pages/Client/Dashboard");
       } else {

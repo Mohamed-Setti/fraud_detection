@@ -10,6 +10,8 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps) {
+
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   const pathname = usePathname();
 
     const lastSegment =
@@ -48,10 +50,16 @@ export default function Layout({ children }: LayoutProps) {
               🔔
             </button>
             <div className="flex items-center gap-5">
-              <span className="font-medium text-gray-900">John Doe</span>
+              <span className="font-medium text-gray-900">{user.name}</span>
             </div>
             <Link href="/">
-                <button className="mt-auto p-2 bg-red-600 rounded hover:bg-red-500">Logout</button>
+                <button className="mt-auto p-2 bg-red-600 rounded hover:bg-red-500" 
+                  onClick={() => {
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("token");
+                  }}>
+                  Logout
+                  </button>
             </Link>
           </div>
         </div>
