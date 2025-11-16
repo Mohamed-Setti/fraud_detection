@@ -34,7 +34,7 @@ export default function Layout({ children }: LayoutProps) {
           <a href="./Transaction" className="block p-2 rounded hover:bg-blue-800">Transactions</a>
           <a href="#" className="block p-2 rounded hover:bg-blue-800">Alerts</a>
           <a href="#" className="block p-2 rounded hover:bg-blue-800">Reports</a>
-          <a href="#" className="block p-2 rounded hover:bg-blue-800">Settings</a>
+          <a href="./Settings" className="block p-2 rounded hover:bg-blue-800">Settings</a>
         </nav>
       </aside>
 
