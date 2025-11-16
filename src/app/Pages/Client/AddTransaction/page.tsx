@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 type TxType = "debit" | "credit" | "transfer" | "payment" | "other";
 type Channel = "online" | "branch" | "atm" | "pos" | "mobile";
@@ -90,8 +91,11 @@ export default function AddTransactionPage() {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-semibold text-blue-900">Add Transaction</h2>
-            <Link href="/Transaction">
-              <button className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Back to list</button>
+            <Link href="./Transaction">
+              <button className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-600">
+                <ArrowLeft className="inline-block mr-2 h-5 w-5" />
+                Back to list
+              </button>
             </Link>
           </div>
 
