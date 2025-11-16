@@ -35,18 +35,18 @@ export default function TransactionsPage() {
                 <input
                 type="text"
                 placeholder="Search transaction..."
-                className="flex-1 px-4 py-2 border rounded-lg focus:outline-none"
+                className="flex-1 px-4 py-2 border rounded-lg focus:outline-none text-gray-900 placeholder:gray-400"
                 />
 
-                <select className="px-4 py-2 border rounded-lg">
+                <select className="px-4 py-2 border rounded-lg text-gray-900">
                 <option>Status</option>
                 <option>Successful</option>
                 <option>Flagged</option>
                 <option>Pending</option>
                 </select>
 
-                <input type="date" className="px-4 py-2 border rounded-lg" />
-                <input type="date" className="px-4 py-2 border rounded-lg" />
+                <input type="date" className="px-4 py-2 border rounded-lg text-gray-900" />
+                <input type="date" className="px-4 py-2 border rounded-lg text-gray-900" />
 
                 <button className="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-600">
                 Apply Filters
@@ -70,10 +70,10 @@ export default function TransactionsPage() {
                 <tbody>
                     {[1, 2, 3, 4, 5].map((i) => (
                     <tr key={i} className="border-b hover:bg-gray-50">
-                        <td className="p-3">TXN00{i}</td>
-                        <td className="p-3">John Doe</td>
-                        <td className="p-3 font-semibold">$1,250.00</td>
-                        <td className="p-3">2025-11-15</td>
+                        <td className="p-3 text-gray-900">TXN00{i}</td>
+                        <td className="p-3 text-gray-900">John Doe</td>
+                        <td className="p-3 font-semibold text-gray-900">$1,250.00</td>
+                        <td className="p-3 text-gray-900">2025-11-15</td>
 
                         <td className="p-3">
                         <span

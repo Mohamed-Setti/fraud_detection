@@ -32,23 +32,23 @@ export default function ClientDashboard() {
 
         {/* ---- Analytics Charts ---- */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="p-6 bg-white rounded-xl shadow h-64 flex items-center justify-center">
+          <div className="p-6 bg-white text-gray-500 rounded-xl shadow h-64 flex items-center justify-center">
             Line Chart Placeholder
           </div>
-          <div className="p-6 bg-white rounded-xl shadow h-64 flex items-center justify-center">
+          <div className="p-6 bg-white text-gray-500 rounded-xl shadow h-64 flex items-center justify-center">
             Bar Chart Placeholder
           </div>
-          <div className="p-6 bg-white rounded-xl shadow h-64 flex items-center justify-center">
+          <div className="p-6 bg-white text-gray-500 rounded-xl shadow h-64 flex items-center justify-center">
             Pie Chart Placeholder
           </div>
         </div>
 
         {/* ---- Recent Transactions ---- */}
         <div className="bg-white rounded-xl shadow overflow-hidden">
-          <h2 className="text-xl font-bold p-6 border-b">Recent Transactions</h2>
+          <h2 className="text-xl text-gray-900 font-bold p-6 border-b">Recent Transactions</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-gray-100">
+              <thead className="bg-gray-100 text-gray-500">
                 <tr>
                   <th className="py-3 px-4">Date</th>
                   <th className="py-3 px-4">Transaction ID</th>
@@ -60,10 +60,10 @@ export default function ClientDashboard() {
               <tbody>
                 {recentTransactions.map((txn) => (
                   <tr key={txn.id} className="border-b hover:bg-gray-50">
-                    <td className="py-2 px-4">{txn.date}</td>
-                    <td className="py-2 px-4">{txn.id}</td>
-                    <td className="py-2 px-4 font-semibold">{txn.amount}</td>
-                    <td className="py-2 px-4">{txn.type}</td>
+                    <td className="py-2 px-4 text-gray-900">{txn.date}</td>
+                    <td className="py-2 px-4 text-gray-900">{txn.id}</td>
+                    <td className="py-2 px-4 font-semibold text-gray-900">{txn.amount}</td>
+                    <td className="py-2 px-4 text-gray-900">{txn.type}</td>
                     <td className="py-2 px-4">
                       <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                         txn.status === "Suspicious" ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
