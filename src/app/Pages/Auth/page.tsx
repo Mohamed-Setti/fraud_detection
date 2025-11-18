@@ -171,13 +171,13 @@ export default function AuthPage() {
           transform: isRegisterActive ? "translateX(100%)" : "translateX(0)"
         }}
       >
-        <h2 className="text-2xl font-bold text-white mt-4">
+        <h2 className="text-5xl font-bold text-white m-4 pb-2">
                 {isRegisterActive ? "Log In" : "Register"}
         </h2>
         <p className="mt-2 text-center text-white max-w-xs px-4">
                 {isRegisterActive
-                ? "Click to go back to login"
-                : "Click to create a new account"}
+                ? "Click to go back to create a new account"
+                : "Click to login if you already have an account"}
         </p>
       </div>
     </div>
