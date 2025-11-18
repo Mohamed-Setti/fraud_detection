@@ -10,9 +10,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-white via-gray-100 to-blue-700 min-h-screen flex items-center">
+      <section className="relative overflow-hidden bg-linear-to-b from-white via-gray-100 to-blue-700 min-h-screen flex items-center">
         {/* Optional subtle overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-blue-700 opacity-90" />
+        <div className="absolute inset-0 bg-linear-to-br from-white via-gray-50 to-blue-700 opacity-90" />
 
         <div className="container relative mx-auto px-4 py-20 flex flex-col items-center text-center">
           {/* Logo */}
