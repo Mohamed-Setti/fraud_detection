@@ -10,11 +10,13 @@ type User = {
 export default function Settings() {
   const [user, setUser] = useState<User | null>(null);
   const [message, setMessage] = useState("");
+  const [showPasswordFields, setShowPasswordFields] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
     email: "",
     mobile: "",
+    oldPassword: "",
     password: "",
   });
 
@@ -30,6 +32,7 @@ export default function Settings() {
         name: u.name,
         email: u.email,
         mobile: u.mobile,
+        oldPassword: "",
         password: "",
       });
     });
@@ -43,22 +46,52 @@ export default function Settings() {
     try {
       const token = localStorage.getItem("token");
 
+      // Prepare request body
+      const updateBody: {
+        name: string;
+        email: string;
+        mobile: string;
+        oldPassword?: string;
+        password?: string;
+      } = {
+        name: form.name,
+        email: form.email,
+        mobile: form.mobile,
+      };
+
+      // Only include password fields if they're filled
+      if (showPasswordFields && form.password) {
+        updateBody.oldPassword = form.oldPassword;
+        updateBody.password = form.password;
+      }
+
       const res = await fetch("/api/auth/update", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(updateBody),
       });
 
       const data = await res.json();
 
-      if (!res.ok) return setMessage(data.error || "Failed to update");
+      if (!res.ok) {
+        setMessage(data.error || "Failed to update");
+        return;
+      }
 
       // Update local user
       localStorage.setItem("user", JSON.stringify(data.user));
       setUser(data.user);
+
+      // Clear password fields and hide them
+      setForm({
+        ...form,
+        oldPassword: "",
+        password: "",
+      });
+      setShowPasswordFields(false);
 
       setMessage("Updated successfully!");
     } catch (error: unknown) {
@@ -102,14 +135,35 @@ export default function Settings() {
           placeholder="Mobile"
         />
 
-        <input
-          name="password"
-          type="password"
-          value={form.password}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          placeholder="New password (optional)"
-        />
+        <button
+          onClick={() => setShowPasswordFields(!showPasswordFields)}
+          className="bg-gray-600 text-white px-4 py-2 rounded w-full"
+          type="button"
+        >
+          {showPasswordFields ? "Cancel Password Change" : "Change Password"}
+        </button>
+
+        {showPasswordFields && (
+          <>
+            <input
+              name="oldPassword"
+              type="password"
+              value={form.oldPassword}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              placeholder="Old password"
+            />
+
+            <input
+              name="password"
+              type="password"
+              value={form.password}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              placeholder="New password"
+            />
+          </>
+        )}
 
         <button
           onClick={handleUpdate}
