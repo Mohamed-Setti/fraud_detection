@@ -95,9 +95,9 @@ export default function Settings() {
 
       setMessage("Updated successfully!");
     } catch (error: unknown) {
-        console.error("Update error:", error);
-        const message = error instanceof Error ? error.message : String(error);
-        alert("Error updating user: " + message);
+      console.error("Update error:", error);
+      const message = error instanceof Error ? error.message : String(error);
+      setMessage("Error updating user: " + message);
     }
   };
 
