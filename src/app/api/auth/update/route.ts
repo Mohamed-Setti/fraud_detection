@@ -26,7 +26,7 @@ export async function PUT(req: Request) {
     }
 
     const body = await req.json();
-    const { name, email, mobile, password } = body;
+    const { name, email, mobile, password, oldPassword } = body;
 
     const updateData: { name?: string; email?: string; mobile?: string; passwordHash?: string } = {
       name,
@@ -34,7 +34,31 @@ export async function PUT(req: Request) {
       mobile,
     };
 
+    // If trying to change password, verify old password first
     if (password) {
+      if (!oldPassword) {
+        return NextResponse.json(
+          { error: "Old password is required to change password" },
+          { status: 400 }
+        );
+      }
+
+      // Get user with password hash to verify old password
+      const user = await User.findById(decoded.id);
+      if (!user) {
+        return NextResponse.json({ error: "User not found" }, { status: 404 });
+      }
+
+      // Verify old password
+      const isValidPassword = await bcrypt.compare(oldPassword, user.passwordHash);
+      if (!isValidPassword) {
+        return NextResponse.json(
+          { error: "Old password is incorrect" },
+          { status: 400 }
+        );
+      }
+
+      // Hash new password
       updateData.passwordHash = await bcrypt.hash(password, 10);
     }
 
